@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "appointment")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Appointment.findAppointmentByPeople", query = "")
+	@NamedQuery(name = "Appointment.findAppointmentByPeople", query = "SELECT a FROM Appointment a")
                 })
 public class Appointment implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -30,4 +30,12 @@ public class Appointment implements Serializable {
     @NotNull
     @Column(name = "appt_id")
     private Integer apptId;
+    
+    public void setApptId(Integer apptId) {
+        this.apptId = apptId;
+    }
+    
+    public Integer getApptId() {
+        return this.apptId;
+    }
 }
