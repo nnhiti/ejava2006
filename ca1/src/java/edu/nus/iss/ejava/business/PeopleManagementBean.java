@@ -19,16 +19,34 @@ public class PeopleManagementBean {
     @PersistenceContext private EntityManager em;
 
     public void addPeople(final People people) {
-        
+        em.persist(people);
+    }
+    
+    public People getPeopleByEmail(final String email) {
+        TypedQuery<People> query = em.createNamedQuery("People.findPeopleByEmail", People.class);
+        query.setParameter("email", email);
+        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+        List<People> lstPeople = query.getResultList();
+        if (lstPeople!=null && !lstPeople.isEmpty()) {
+            return lstPeople.get(0);
+        }
+	return null;
+    }
+    
+    public boolean isPeopleExist(final String email) {
+        People people = getPeopleByEmail(email);
+	return (people!=null);
     }
     
     public void addAppointment(final Appointment appointment) {
-        
+        em.persist(appointment);
     }
     
-    public List<Appointment> findAppointmentByPeople() {
-        TypedQuery<Appointment> query = em.createNamedQuery(
-                        "Appointment.findAppointmentByPeople", Appointment.class);
-	return (query.getResultList());
+    public List<Appointment> findAppointmentByPeople(String email) {
+        People people = getPeopleByEmail(email);
+        if (people != null) {
+            return people.getLstAppointment();
+        }
+        return null;
     }
 }
