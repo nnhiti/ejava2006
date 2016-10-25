@@ -47,6 +47,7 @@ public class PeopleManagementBean {
         if (people != null) {
             return people.getLstAppointment();
         }
+        
         return null;
     }
 }
