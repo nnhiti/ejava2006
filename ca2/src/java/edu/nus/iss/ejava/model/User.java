@@ -6,12 +6,9 @@
 package edu.nus.iss.ejava.model;
 
 import java.io.Serializable;
-import javax.json.JsonObject;
-import javax.json.Json;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,9 +29,6 @@ public class User implements Serializable {
     @Size(max = 128)
     private String password;
     
-    @OneToOne(mappedBy = "user")
-    private Group group;
-
     public String getUserId() {
         return userId;
     }
@@ -49,20 +43,5 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-    
-    public JsonObject toJSON() {
-        return (Json.createObjectBuilder()
-                .add("user_id", userId)
-		.add("password", password)
-		.build());
     }
 }

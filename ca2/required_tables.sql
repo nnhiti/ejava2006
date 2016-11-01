@@ -24,7 +24,9 @@ CREATE TABLE `notes` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `userid` varchar(32) NOT NULL,
   `catid` bigint(20) NOT NULL,
-  `note` varchar(2000) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` varchar(3000) NOT NULL,
+  `postedDate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_notes` (`catid`),
   CONSTRAINT `FK_notes` FOREIGN KEY (`catid`) REFERENCES `category` (`id`)

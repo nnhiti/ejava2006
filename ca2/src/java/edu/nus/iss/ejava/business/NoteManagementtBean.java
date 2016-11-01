@@ -5,6 +5,8 @@
  */
 package edu.nus.iss.ejava.business;
 
+import edu.nus.iss.ejava.model.Group;
+import edu.nus.iss.ejava.model.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,8 +14,24 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class NoteManagementtBean {
     
+    private static final String DEFAULT_ROLE = "manage";
+    
     @PersistenceContext private EntityManager em;
 
+    public void createUser(final User user) {
+        em.persist(user);
+        Group group = new Group();
+        group.setGroupId(DEFAULT_ROLE);
+        group.setUserId(user.getUserId());
+        em.persist(group);
+    }
+    
+    public User findUserById(String id) {
+        return em.find(User.class, id);
+    }
+    
+    
+    
 //    public void addPeople(final People people) {
 //        em.persist(people);
 //    }

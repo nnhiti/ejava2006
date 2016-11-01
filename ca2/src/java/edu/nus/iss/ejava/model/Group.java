@@ -28,9 +28,9 @@ public class Group implements Serializable {
     @Size(max = 32)
     private String groupId;
     
-    @OneToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid")
-    private User user;
+    @Column(name = "userid")
+    @Size(max = 32)
+    private String userId;
 
     public String getGroupId() {
         return groupId;
@@ -40,18 +40,11 @@ public class Group implements Serializable {
         this.groupId = groupId;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public JsonObject toJSON() {
-        return (Json.createObjectBuilder()
-                .add("group_id", groupId)
-		.add("user_id", user.getUserId())
-		.build());
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

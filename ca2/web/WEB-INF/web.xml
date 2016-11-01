@@ -35,7 +35,7 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>user</role-name>
+            <role-name>manage</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
