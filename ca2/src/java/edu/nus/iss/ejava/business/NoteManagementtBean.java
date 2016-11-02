@@ -5,11 +5,15 @@
  */
 package edu.nus.iss.ejava.business;
 
+import edu.nus.iss.ejava.model.Category;
 import edu.nus.iss.ejava.model.Group;
+import edu.nus.iss.ejava.model.Note;
 import edu.nus.iss.ejava.model.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Stateless
 public class NoteManagementtBean {
@@ -30,38 +34,29 @@ public class NoteManagementtBean {
         return em.find(User.class, id);
     }
     
+    public List<Category> getAllCategories() {
+        TypedQuery<Category> query = em.createNamedQuery("Category.getAllCategories", Category.class);
+	return query.getResultList();
+    }
     
+    public Category findCategoryById(Long id) {
+        return em.find(Category.class, id);
+    }
     
-//    public void addPeople(final People people) {
-//        em.persist(people);
-//    }
-//    
-//    public People getPeopleByEmail(final String email) {
-//        TypedQuery<People> query = em.createNamedQuery("People.findPeopleByEmail", People.class);
-//        query.setParameter("email", email);
-//        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-//        List<People> lstPeople = query.getResultList();
-//        if (lstPeople!=null && !lstPeople.isEmpty()) {
-//            return lstPeople.get(0);
-//        }
-//	return null;
-//    }
-//    
-//    public boolean isPeopleExist(final String email) {
-//        People people = getPeopleByEmail(email);
-//	return (people!=null);
-//    }
-//    
-//    public void addAppointment(final Appointment appointment) {
-//        em.persist(appointment);
-//    }
-//    
-//    public List<Appointment> findAppointmentByPeople(String email) {
-//        People people = getPeopleByEmail(email);
-//        if (people != null) {
-//            return people.getLstAppointment();
-//        }
-//        
-//        return null;
-//    }
+    public void createNote(Note note) {
+        em.persist(note);
+    }
+    
+    public List<Note> getAllNotesByUserId(String userId) {
+        TypedQuery<Note> query = em.createNamedQuery("Note.getAllNotesByUserId", Note.class);
+        query.setParameter("userId", userId);
+        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+	return query.getResultList();
+    }
+    
+    public List<Note> getAllNotes() {
+        TypedQuery<Note> query = em.createNamedQuery("Note.getAllNotes", Note.class);
+        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+	return query.getResultList();
+    }
 }

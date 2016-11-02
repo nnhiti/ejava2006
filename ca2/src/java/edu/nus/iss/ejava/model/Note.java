@@ -6,6 +6,8 @@
 package edu.nus.iss.ejava.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.json.JsonObject;
 import javax.json.Json;
 import javax.persistence.Column;
@@ -15,12 +17,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "notes")
+@NamedQueries({
+    @NamedQuery(name = "Note.getAllNotesByUserId", query = "SELECT n FROM Note n WHERE n.user.userId = :userId ORDER BY n.postedDate DESC"),
+    @NamedQuery(name = "Note.getAllNotes", query = "SELECT n FROM Note n ORDER BY n.postedDate DESC")
+})
 public class Note implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -41,10 +49,19 @@ public class Note implements Serializable {
     private Category category;
     
     @NotNull
-    @Column(name = "note")
-    @Size(max = 2000)
-    private String note;
+    @Column(name = "title")
+    @Size(max = 255)
+    private String title;
 
+    @NotNull
+    @Column(name = "content")
+    @Size(max = 255)
+    private String content;
+    
+    @NotNull
+    @Column(name = "postedDate")
+    private Date postedDate;
+    
     public long getId() {
         return id;
     }
@@ -69,20 +86,52 @@ public class Note implements Serializable {
         this.category = category;
     }
 
-    public String getNote() {
-        return note;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setTitle(String title) {
+        this.title = title;
     }
-    
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getPostedDate() {
+        return postedDate;
+    }
+
+    public void setPostedDate(Date postedDate) {
+        this.postedDate = postedDate;
+    }
+
     public JsonObject toJSON() {
         return (Json.createObjectBuilder()
-                .add("note_id", id)
-		.add("note", note)
+                .add("id", id)
+		.add("title", title)
+                .add("content", content)
+                .add("posted_date", dateToString(postedDate, "dd/MM/yyyy HH:mm:ss"))
 		.add("category_name", category.getCatName())
                 .add("user_name", user.getUserId())
 		.build());
+    }
+    
+    public static String dateToString(Date date, String format) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String ret="";
+        try {
+            ret =sdf.format(date); 
+        } catch (Exception e) {
+            ret="";
+        }
+        return ret;
     }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Posted Notes</title>
         <meta charset="UTF-8"/>
@@ -40,7 +40,26 @@
         </nav>
         
         <div class="container">
-            
+            <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Posted Date</th>
+                <th>Category</th>
+                <th>Content</th>
+              </tr>
+            </thead>
+            <tbody>
+                <ui:repeat value="#{noteBean.noteList}" var="note">
+                    <tr>
+                      <td><h:outputText value="${note.getString('title')}"/></td>
+                      <td><h:outputText value="${note.getString('posted_date')}"/></td>
+                      <td><h:outputText value="${note.getString('category_name')}"/></td>
+                      <td><h:outputText value="${note.getString('content')}"/></td>
+                    </tr>
+                </ui:repeat>
+            </tbody>
+          </table>
         </div>
     </h:body>
 </html>

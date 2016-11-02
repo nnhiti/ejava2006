@@ -26,20 +26,6 @@ public class LoginBean implements Serializable {
     @EJB private NoteManagementtBean noteBean;
     
     public void logout() {
-//        try {
-//                MessageDigest md = MessageDigest.getInstance("SHA-256");
-//                md.update(password.getBytes("UTF-8"));
-//                byte[] digest = md.digest();
-//                BigInteger bigInt = new BigInteger(1, digest);
-//                password = bigInt.toString(16);
-//            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {}
-            
-//        MessageDigest md = MessageDigest.getInstance("SHA-256");
-//        String text = "admin";
-//        md.update(text.getBytes("UTF-8"));
-//        byte[] digest = md.digest();
-//        System.out.println(Base64.encode(digest));
-
         try {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             ((HttpServletRequest) ec.getRequest()).logout();
