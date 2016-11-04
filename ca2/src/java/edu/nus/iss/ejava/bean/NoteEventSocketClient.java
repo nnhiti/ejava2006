@@ -15,6 +15,7 @@ public class NoteEventSocketClient {
     public NoteEventSocketClient(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            
             container.connectToServer(this, endpointURI);
         } catch (Exception e) {
             throw new RuntimeException(e);
