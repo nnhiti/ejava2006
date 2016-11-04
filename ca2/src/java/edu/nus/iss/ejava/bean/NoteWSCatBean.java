@@ -28,7 +28,9 @@ public class NoteWSCatBean implements Serializable {
         cats.get(cat).stream().forEach(s -> {
             try {
                 s.getBasicRemote().sendText(message);
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+            ex.printStackTrace();
+            }
         });
     }
     
