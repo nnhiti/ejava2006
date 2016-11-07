@@ -6,6 +6,7 @@
 package edu.nus.iss.ejava.business;
 
 import edu.nus.iss.ejava.model.Delivery;
+import edu.nus.iss.ejava.model.Pod;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,5 +29,13 @@ public class PackageService {
     public List<Delivery> findAllDeliveries() {
         TypedQuery<Delivery> query = em.createNamedQuery("Delivery.findAllDeliveries", Delivery.class);
 	return query.getResultList();
+    }
+    
+    public Pod findPodById(Integer podId) {
+        return em.find(Pod.class, podId);
+    }
+    
+    public void updatePod(Pod pod) {
+        em.merge(pod);
     }
 }

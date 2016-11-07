@@ -16,14 +16,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @RequestScoped
-@Path("/pod")
+@Path("/items")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PodResource {
     @EJB private PackageService pService;
     
     @GET
-    @Path("/items")
     public Response getDeliveries(){
         Response.ResponseBuilder builder;
         List<Delivery> lstDelivery = pService.findAllDeliveries();
@@ -40,49 +39,4 @@ public class PodResource {
         builder = (Response.status(Response.Status.OK).entity(arrayBuilder.build()));
 	return builder.build();
     }
-//    
-//    @POST
-//    @Path("/appointment/add")
-//    public Response addAppointment(final JsonObject apptForm) {
-//	Response.ResponseBuilder builder;
-//        if (!peopleBean.isPeopleExist(apptForm.getString("email"))) {
-//            JsonObject json = Json.createObjectBuilder()
-//                            .add("msg", "The user with email "+apptForm.getString("email")+" haven't registered.")
-//                            .build();
-//            builder = Response.status(Response.Status.NOT_FOUND).entity(json);
-//        } else {
-//            People people = peopleBean.getPeopleByEmail(apptForm.getString("email"));
-//            Appointment app = new Appointment();
-//            try {
-//                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                Date date = sdf.parse(apptForm.getString("appt-date"));
-//                app.setApptDate(date);
-//            } catch(Exception e){e.printStackTrace();}
-//            app.setDescription(apptForm.getString("description"));
-//            app.setPeople(people);
-//            peopleBean.addAppointment(app);
-//            builder = Response.status(Response.Status.CREATED);
-//        }
-//	return builder.build();
-//    }
-//    
-//    @POST
-//    @Path("/appointment")
-//    public Response getAllAppointments(final JsonObject form) {
-//	Response.ResponseBuilder builder;
-//        if (!peopleBean.isPeopleExist(form.getString("email"))) {
-//            JsonObject json = Json.createObjectBuilder()
-//                            .add("msg", "The user with email "+form.getString("email")+" haven't registered.")
-//                            .build();
-//            builder = Response.status(Response.Status.NOT_FOUND).entity(json);
-//        } else {
-//            JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
-//            List<Appointment> listAppt = peopleBean.findAppointmentByPeople(form.getString("email"));
-//            listAppt.forEach((appt) -> {
-//                arrBuilder.add(appt.toJSON());
-//            });
-//            builder = (Response.status(Response.Status.OK).entity(arrBuilder.build()));
-//        }
-//        return builder.build();
-//    }
 }
