@@ -15,12 +15,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "pod")
+@NamedQueries({
+    @NamedQuery(name = "Pod.findAllPods", query = "SELECT p FROM Pod p WHERE p.ackId = null AND p.image IS NOT NULL")
+})
 public class Pod implements Serializable {
     private static final long serialVersionUID = 1L;
     

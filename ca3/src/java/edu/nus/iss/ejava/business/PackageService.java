@@ -20,14 +20,17 @@ public class PackageService {
 
     public void addPackage(final Delivery delivery) {
         em.persist(delivery);
+        em.flush();
     }
     
     public void addPod(Integer did) {
         em.createNativeQuery("INSERT INTO pod(pkg_id) VALUES("+did+")").executeUpdate();
+        em.flush();
     }
     
     public List<Delivery> findAllDeliveries() {
         TypedQuery<Delivery> query = em.createNamedQuery("Delivery.findAllDeliveries", Delivery.class);
+        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 	return query.getResultList();
     }
     
@@ -37,5 +40,11 @@ public class PackageService {
     
     public void updatePod(Pod pod) {
         em.merge(pod);
+    }
+    
+    public List<Pod> findAllPods() {
+        TypedQuery<Pod> query = em.createNamedQuery("Pod.findAllPods", Pod.class);
+        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+	return query.getResultList();
     }
 }
